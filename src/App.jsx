@@ -13,6 +13,8 @@ function App() {
     { id: 3, day: 1, p: 999 },
   ];
   const [loading, setLoading] = useState(true);
+  const [login, setLogin] = useState(JSON.parse(localStorage.getItem('l'))||false );
+
   const [products, setProducts] = useState([]);
   useEffect(() => {
     fetch("https://fakestoreapi.com/products")
@@ -40,19 +42,17 @@ function App() {
       <productst.Provider value={products}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Home cart={cart} setcart={setcart} loading={loading}/>} />
+            <Route
+              path="/"
+              element={<Home cart={cart} login=
+              {login} setcart={setcart} loading={loading} />}
+            />
             <Route
               path="/checkout"
               element={<Checkout cart={cart} setcart={setcart} dop={dop} />}
             />
-            <Route
-              path="/signin"
-              element={<Login />}
-            />
-            <Route
-              path="/signup"
-              element={<Signup />}
-            />
+            <Route path="/signin" element={<Login login={setLogin} />} />
+            <Route path="/signup" element={<Signup />} />
           </Routes>
         </BrowserRouter>
       </productst.Provider>

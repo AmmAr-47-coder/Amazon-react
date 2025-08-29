@@ -1,7 +1,8 @@
 import { productst } from "./App";
 import { useContext, useState, useRef } from "react";
 import "./home.css";
-function Home({ cart, setcart, loading }) {
+function Home({ cart, setcart, loading, login }) {
+  const user = JSON.parse(localStorage.getItem("user")) || null;
   const [searchTerm, setSearchTerm] = useState("");
   const il = useRef({});
   const il2 = useRef({});
@@ -65,7 +66,9 @@ function Home({ cart, setcart, loading }) {
         </div>
 
         <div className="amazon-header-right-section">
-          <a className="orders-link header-link">Login</a>
+          <a className="orders-link header-link">
+            {login ? user.name :"Login"}
+          </a>
 
           <a className="cart-link header-link" href="/Checkout">
             <img
@@ -79,7 +82,7 @@ function Home({ cart, setcart, loading }) {
         </div>
       </div>
       <div className="lo">
-        <div class="loader"></div>
+        <div classn="loader"></div>
       </div>
     </div>
   ) : (
@@ -120,7 +123,7 @@ function Home({ cart, setcart, loading }) {
 
         <div className="amazon-header-right-section">
           <a className="orders-link header-link" href="/signin">
-            Login
+            {login ? user.name :"Login"}
           </a>
 
           <a className="cart-link header-link" href="/Checkout">

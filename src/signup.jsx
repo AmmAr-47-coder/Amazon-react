@@ -6,32 +6,32 @@ function Signup() {
     name: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    confirmPassword: ""
   });
+  const [success, setSuccess] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
-    const user = {
-      username: formData.name,
-      email: formData.email,
-      password: formData.password,
-    };
-    await fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(user),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data));
+
+    localStorage.setItem("user", JSON.stringify(formData));
+    setSuccess(true);
+    setTimeout(() => setSuccess(false), 2000);
+    setFormData({
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: ""
+    });
   };
+
   return (
     <div className="signup-container">
       <header className="login-header creat">
@@ -51,6 +51,11 @@ function Signup() {
         </div>
         <p className="login-subtitle">Sign up</p>
       </header>
+
+      {success && (
+        <h1 className="mmm">Your account has been created</h1>
+      )}
+
       <div className="signup-box">
         <h1 className="signup-title">Create account</h1>
         <form onSubmit={handleSubmit}>
@@ -103,15 +108,18 @@ function Signup() {
             />
           </div>
 
-          <button type="submit" className="signup-btn">
-            Create your Amazon account
-          </button>
+          <input
+            type="submit"
+            className="signup-btn"
+            value="Create your Amazon account"
+          />
         </form>
 
         <p className="signin-link">
           Already have an account? <a href="/signin">Sign in</a>
         </p>
       </div>
+
       <footer className="login-footer fff">
         <p className="login-footer-text">
           © {new Date().getFullYear()} Amazon — All rights reserved

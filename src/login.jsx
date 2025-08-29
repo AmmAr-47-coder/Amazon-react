@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import "./login.css";
 
-export default function Login() {
+export default function Login({login}) {
+  const [success, setSuccess] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
   const [error, setError] = useState("");
 
+  const user = JSON.parse(localStorage.getItem("user")) || null;
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (!email || !password) {
       setError("Please enter your email and password");
       return;
@@ -17,8 +21,24 @@ export default function Login() {
       setError("Password must be at least 6 characters");
       return;
     }
+
     setError("");
-    alert(`Logged in as ${email}`);
+
+    if (user) {
+      if (email === user.email && password === user.password) {
+        setSuccess(true);
+        login(true)
+        localStorage.setItem('l',JSON.stringify(true))
+        setTimeout(() => {
+          setSuccess(false);
+          window.location.href = "/";
+        }, 2000);
+      } else {
+        setError("Invalid email or password");
+      }
+    } else {
+      setError("No account found, please sign up first");
+    }
   };
 
   return (
@@ -42,6 +62,7 @@ export default function Login() {
       </header>
 
       <main className="login-main">
+        {success && <h1 className="mmm">Successful login</h1>}
         <div className="login-card">
           <h2 className="login-title">Sign In</h2>
           <form className="login-form" onSubmit={handleSubmit}>
