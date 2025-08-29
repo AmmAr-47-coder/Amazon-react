@@ -34,6 +34,23 @@ function Signup() {
   };
   return (
     <div className="signup-container">
+      <header className="login-header creat">
+        <div className="amazon-header-left-section">
+          <a className="header-link">
+            <img
+              className="amazon-logo"
+              src="images/amazon-logo-white.png"
+              alt="Amazon Logo"
+            />
+            <img
+              className="amazon-mobile-logo"
+              src="images/amazon-mobile-logo-white.png"
+              alt="Amazon Mobile Logo"
+            />
+          </a>
+        </div>
+        <p className="login-subtitle">Sign up</p>
+      </header>
       <div className="signup-box">
         <h1 className="signup-title">Create account</h1>
         <form onSubmit={handleSubmit}>
@@ -95,6 +112,11 @@ function Signup() {
           Already have an account? <a href="/signin">Sign in</a>
         </p>
       </div>
+      <footer className="login-footer fff">
+        <p className="login-footer-text">
+          © {new Date().getFullYear()} Amazon — All rights reserved
+        </p>
+      </footer>
     </div>
   );
 }

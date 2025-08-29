@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Login.css";
+import "./login.css";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -24,8 +24,21 @@ export default function Login() {
   return (
     <div className="login-page">
       <header className="login-header">
-        <h1 className="login-logo">Amazon</h1>
-        <p className="login-subtitle">Sign in to your account</p>
+        <div className="amazon-header-left-section">
+          <a className="header-link">
+            <img
+              className="amazon-logo"
+              src="images/amazon-logo-white.png"
+              alt="Amazon Logo"
+            />
+            <img
+              className="amazon-mobile-logo"
+              src="images/amazon-mobile-logo-white.png"
+              alt="Amazon Mobile Logo"
+            />
+          </a>
+        </div>
+        <p className="login-subtitle">Sign in</p>
       </header>
 
       <main className="login-main">
