@@ -1,7 +1,7 @@
 import { productst } from "./App";
 import { useContext, useState, useRef } from "react";
 import "./home.css";
-function Home({ cart, setcart }) {
+function Home({ cart, setcart, loading }) {
   const [searchTerm, setSearchTerm] = useState("");
   const il = useRef({});
   const il2 = useRef({});
@@ -24,11 +24,11 @@ function Home({ cart, setcart }) {
       il2.current[id].style.opacity = "0";
     }, 1000);
     newCart[0].dop = 1;
-    console.log(newCart)
+    console.log(newCart);
     setcart(newCart);
     localStorage.setItem("cart", JSON.stringify(newCart));
   }
-  return (
+  return loading ? (
     <div>
       <div className="amazon-header">
         <div className="amazon-header-left-section">
@@ -65,9 +65,62 @@ function Home({ cart, setcart }) {
         </div>
 
         <div className="amazon-header-right-section">
-          <a className="orders-link header-link">
-            <span className="returns-text">Returns</span>
-            <span className="orders-text">& Orders</span>
+          <a className="orders-link header-link">Login</a>
+
+          <a className="cart-link header-link" href="/Checkout">
+            <img
+              className="cart-icon"
+              src="images/icons/cart-icon.png"
+              alt="Cart"
+            />
+            <div className="cart-quantity js-cart-q">{q}</div>
+            <div className="cart-text">Cart</div>
+          </a>
+        </div>
+      </div>
+      <div className="lo">
+        <div class="loader"></div>
+      </div>
+    </div>
+  ) : (
+    <div>
+      <div className="amazon-header">
+        <div className="amazon-header-left-section">
+          <a className="header-link">
+            <img
+              className="amazon-logo"
+              src="images/amazon-logo-white.png"
+              alt="Amazon Logo"
+            />
+            <img
+              className="amazon-mobile-logo"
+              src="images/amazon-mobile-logo-white.png"
+              alt="Amazon Mobile Logo"
+            />
+          </a>
+        </div>
+
+        <div className="amazon-header-middle-section">
+          <input
+            className="search-bar"
+            type="text"
+            placeholder="Search"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+
+          <button className="search-button">
+            <img
+              className="search-icon"
+              src="images/icons/search-icon.png"
+              alt="Search"
+            />
+          </button>
+        </div>
+
+        <div className="amazon-header-right-section">
+          <a className="orders-link header-link" href="/signin">
+            Login
           </a>
 
           <a className="cart-link header-link" href="/Checkout">
@@ -81,12 +134,11 @@ function Home({ cart, setcart }) {
           </a>
         </div>
       </div>
-
       <div className="main">
         <div className="products-grid js-products-grid">
           {pro
             .filter((product) =>
-              product.name.toLowerCase().includes(searchTerm.toLowerCase())
+              product.title.toLowerCase().includes(searchTerm.toLowerCase())
             )
             .map((product) => (
               <div className="product-container" key={product.id}>
@@ -94,30 +146,21 @@ function Home({ cart, setcart }) {
                   <img
                     className="product-image"
                     src={product.image}
-                    alt={product.name}
+                    alt={product.title}
                   />
                 </div>
 
                 <div className="product-name limit-text-to-2-lines">
-                  {product.name}
+                  {product.title}
                 </div>
-
                 <div className="product-rating-container">
-                  <img
-                    className="product-rating-stars"
-                    src={`images/ratings/rating-${
-                      product.rating.stars * 10
-                    }.png`}
-                    alt="Rating"
-                  />
+                  <h4>{product.rating.rate}</h4>
                   <div className="product-rating-count link-primary">
-                    {product.rating.count}
+                    ({product.rating.count})
                   </div>
                 </div>
 
-                <div className="product-price">
-                  ${(product.priceCents / 100).toFixed(2)}
-                </div>
+                <div className="product-price">${product.price}</div>
 
                 <div className={`product-quantity-container js-q${product.id}`}>
                   <select ref={(el) => (il.current[product.id] = el)}>

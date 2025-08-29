@@ -14,7 +14,7 @@ function Checkout({ cart, setcart, dop }) {
 
     cart.forEach((element) => {
       qq += element.q;
-      ttp += element.priceCents * element.q;
+      ttp += element.price * 100 * element.q;
       const v = dop.find((d) => d.id === element.dop);
       if (v) {
         j += v.p;
@@ -108,13 +108,13 @@ function Checkout({ cart, setcart, dop }) {
                   <img
                     className="product-image"
                     src={item.image}
-                    alt={item.name}
+                    alt={item.title}
                   />
 
                   <div className="cart-item-details">
-                    <div className="product-name">{item.name}</div>
+                    <div className="product-name">{item.title}</div>
                     <div className="product-price">
-                      ${(item.priceCents / 100).toFixed(2)}
+                      ${item.price}
                     </div>
                     <div className="product-quantity">
                       <span>
