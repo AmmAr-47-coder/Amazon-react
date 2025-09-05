@@ -2,6 +2,7 @@ import Home from "./home";
 import Checkout from "./checkout";
 import Login from "./login";
 import Signup from "./signup";
+import MyAccount from "./myaccount";
 import { createContext, useState, useEffect } from "react";
 import "./index.css";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
@@ -53,6 +54,7 @@ function App() {
             />
             <Route path="/signin" element={<Login login={setLogin} />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/myaccount" element={<MyAccount />} />
           </Routes>
         </BrowserRouter>
       </productst.Provider>

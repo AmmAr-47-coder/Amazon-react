@@ -1,39 +1,45 @@
 import { productst } from "./App";
 import { useContext, useState, useRef } from "react";
 import "./home.css";
+
 function Home({ cart, setcart, loading, login }) {
   const user = JSON.parse(localStorage.getItem("user")) || null;
   const [searchTerm, setSearchTerm] = useState("");
   const il = useRef({});
   const il2 = useRef({});
+  const img = useRef({});
+  const loadimg = useRef({});
   const pro = useContext(productst);
   const q = cart.reduce((total, item) => total + item.q, 0);
+
   function add(id) {
     let newCart;
     const find = cart.find((i) => i.id === id);
     const selectedQty = parseInt(il.current[id].value, 10);
+
     if (find) {
       newCart = cart.map((item) =>
         item.id === id ? { ...item, q: item.q + selectedQty } : item
       );
     } else {
       const npro = pro.find((i) => i.id === id);
-      newCart = [...cart, { ...npro, q: selectedQty }];
+      newCart = [...cart, { ...npro, q: selectedQty, dop: 1 }];
     }
+
     il2.current[id].style.opacity = "1";
     setTimeout(() => {
       il2.current[id].style.opacity = "0";
     }, 1000);
-    newCart[0].dop = 1;
-    console.log(newCart);
+
     setcart(newCart);
     localStorage.setItem("cart", JSON.stringify(newCart));
   }
+
   return loading ? (
     <div>
       <div className="amazon-header">
         <div className="amazon-header-left-section">
-          <a className="header-link">
+          <a className="header-link" href="/">
             <img
               className="amazon-logo"
               src="images/amazon-logo-white.png"
@@ -66,8 +72,11 @@ function Home({ cart, setcart, loading, login }) {
         </div>
 
         <div className="amazon-header-right-section">
-          <a className="orders-link header-link">
-            {login ? user.name :"Login"}
+          <a
+            className="orders-link header-link"
+            href={login ? "/signin" : "/myaccount"}
+          >
+            {login ? user.name : "Login"}
           </a>
 
           <a className="cart-link header-link" href="/Checkout">
@@ -82,14 +91,14 @@ function Home({ cart, setcart, loading, login }) {
         </div>
       </div>
       <div className="lo">
-        <div classn="loader"></div>
+        <div className="loader"></div>
       </div>
     </div>
   ) : (
     <div>
       <div className="amazon-header">
         <div className="amazon-header-left-section">
-          <a className="header-link">
+          <a className="header-link" href="/">
             <img
               className="amazon-logo"
               src="images/amazon-logo-white.png"
@@ -122,8 +131,11 @@ function Home({ cart, setcart, loading, login }) {
         </div>
 
         <div className="amazon-header-right-section">
-          <a className="orders-link header-link" href="/signin">
-            {login ? user.name :"Login"}
+          <a
+            className="orders-link header-link"
+            href={!login ? "/signin" : "/myaccount"}
+          >
+            {login ? user.name : "Login"}
           </a>
 
           <a className="cart-link header-link" href="/Checkout">
@@ -137,6 +149,7 @@ function Home({ cart, setcart, loading, login }) {
           </a>
         </div>
       </div>
+
       <div className="main">
         <div className="products-grid js-products-grid">
           {pro
@@ -146,16 +159,28 @@ function Home({ cart, setcart, loading, login }) {
             .map((product) => (
               <div className="product-container" key={product.id}>
                 <div className="product-image-container">
+                  <div
+                    className="lo"
+                    ref={(el) => (loadimg.current[product.id] = el)}
+                  >
+                    <div className="loader"></div>
+                  </div>
                   <img
                     className="product-image"
                     src={product.image}
                     alt={product.title}
+                    ref={(el) => (img.current[product.id] = el)}
+                    onLoad={() => {
+                      loadimg.current[product.id].style.display='none'
+                      img.current[product.id].style.display='block'
+                    }}
                   />
                 </div>
 
                 <div className="product-name limit-text-to-2-lines">
                   {product.title}
                 </div>
+
                 <div className="product-rating-container">
                   <h4>{product.rating.rate}</h4>
                   <div className="product-rating-count link-primary">
@@ -183,7 +208,7 @@ function Home({ cart, setcart, loading, login }) {
                 <div className="product-spacer"></div>
 
                 <div
-                  ref={(i) => (il2.current[product.id] = i)}
+                  ref={(el) => (il2.current[product.id] = el)}
                   className="added-to-cart"
                 >
                   <img src="images/icons/checkmark.png" alt="Added" />
