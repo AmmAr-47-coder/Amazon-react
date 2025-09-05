@@ -24,7 +24,7 @@ function Checkout({ cart, setcart, dop }) {
     settp(ttp);
     settdop(j);
   }, [cart]);
-
+  console.log(cart)
   function remove(id) {
     const newc = cart.filter((i) => i.id != id);
     setcart(newc);
@@ -42,7 +42,6 @@ function Checkout({ cart, setcart, dop }) {
       btn1.current[id].innerHTML = "Save";
       btn.current[id].disabled = false;
     }
-    console.log(cart);
   }
   function onClickdop(dopp, id) {
     const h = cart.map((y) => (y.id === id ? { ...y, dop: dopp } : y));
@@ -59,7 +58,7 @@ function Checkout({ cart, setcart, dop }) {
   }
 
   return (
-    <div>
+    <div className="hghg">
       <div className="checkout-header">
         <div className="header-content">
           <div className="checkout-header-left-section">
@@ -88,13 +87,12 @@ function Checkout({ cart, setcart, dop }) {
 
       <div className="mainc">
         <div className="page-title">Review your order</div>
-
         <div className="checkout-gridc">
           <div className="cart-item-container">
             {cart.map((item) => (
               <div key={item.id}>
                 <div className="delivery-date">
-                  Delivery date:{" "}
+                  Delivery date:
                   {item.dop === 1
                     ? dayjs().add(5, "day").format("dddd , MMMM D")
                     : item.dop === 2

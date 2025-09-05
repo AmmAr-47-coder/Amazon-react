@@ -166,7 +166,7 @@ function Home({ cart, setcart, loading, login }) {
                     <div className="loader"></div>
                   </div>
                   <img
-                    className="product-image"
+                    className="product-imageh"
                     src={product.image}
                     alt={product.title}
                     ref={(el) => (img.current[product.id] = el)}
