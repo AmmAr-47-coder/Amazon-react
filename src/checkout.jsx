@@ -89,7 +89,7 @@ function Checkout({ cart, setcart, dop }) {
         <div className="page-title">Review your order</div>
         <div className="checkout-gridc">
           <div className="cart-item-container">
-            {cart.map((item) => (
+            {cart.length != 0? cart.map((item) => (
               <div key={item.id}>
                 <div className="delivery-date">
                   Delivery date:
@@ -170,7 +170,7 @@ function Checkout({ cart, setcart, dop }) {
                   </div>
                 </div>
               </div>
-            ))}
+            )):(<h1>Your Cart is Empty</h1>)}
           </div>
           <div className="order-summary">
             <div className="payment-summary-title">Order Summary</div>
