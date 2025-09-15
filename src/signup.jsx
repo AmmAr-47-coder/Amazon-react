@@ -41,6 +41,7 @@ function Signup() {
               className="amazon-logo"
               src="images/amazon-logo-white.png"
               alt="Amazon Logo"
+              onClick={()=>window.location.href = "/"}
             />
             <img
               className="amazon-mobile-logo"

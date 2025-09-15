@@ -171,8 +171,8 @@ function Home({ cart, setcart, loading, login }) {
                     alt={product.title}
                     ref={(el) => (img.current[product.id] = el)}
                     onLoad={() => {
-                      loadimg.current[product.id].style.display='none'
-                      img.current[product.id].style.display='block'
+                      loadimg.current[product.id].style.display = "none";
+                      img.current[product.id].style.display = "block";
                     }}
                   />
                 </div>
@@ -192,16 +192,11 @@ function Home({ cart, setcart, loading, login }) {
 
                 <div className={`product-quantity-container js-q${product.id}`}>
                   <select ref={(el) => (il.current[product.id] = el)}>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
+                    {Array.from({ length: 10 }, (_, i) => (
+                      <option key={i + 1} value={i + 1}>
+                        {i + 1}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
@@ -224,6 +219,9 @@ function Home({ cart, setcart, loading, login }) {
                 </button>
               </div>
             ))}
+          {pro.filter((product) =>
+            product.title.toLowerCase().includes(searchTerm.toLowerCase())
+          ).length === 0 && <h1 className="notf">Not found</h1>}
         </div>
       </div>
     </div>

@@ -50,6 +50,7 @@ export default function Login({login}) {
               className="amazon-logo"
               src="images/amazon-logo-white.png"
               alt="Amazon Logo"
+              onClick={()=>window.location.href = "/"}
             />
             <img
               className="amazon-mobile-logo"
